@@ -48,11 +48,6 @@ function getAllMovieTitles(movies) {
  *  getHighestMetascore(movies);
  *  //> 96
  */
-// function checkEmpty(arr, this){
-//   if (!arr.length){
-//     return this
-//   }
-// }
 
 function getHighestMetascore(movies) {
   if (!movies.length) {
@@ -109,7 +104,6 @@ function ratingArrayMaker(movies) {
   }
   return arr;
 }
-// console.log(countByRating(exampleMovies));
 
 function countByRating(movies) {
   if (!movies.length) {
@@ -127,38 +121,7 @@ function countByRating(movies) {
   return ratingsObj;
 }
 
-// * wordCount accepts a sentence and returns an object of word frequencies.
-// *
-// * @param {String} sentence
-// * @returns {Object} - Object mapping words to word counts
-// *
-// * Ex:
-// *
-// * wordCount("fly away fly away visit the moon")
-// * => {fly: 2, away: 2, visit: 1, the: 1, moon: 1}
-// */
-// function wordCount(sentence) {
-//  // 1. transform sentence into an array of words
-//  let words = sentence.split(" ");
-
-//  // 2. Create word frequency object. Default value should be {}
-//  let wordFrequencies = {};
-//  // 3. Iterate through our array of words
-//  for (let word of words) {
-//    // lookup key for our current word
-//    if (wordFrequencies[word]) {
-//      // if it does exist, increment its value by 1
-//      wordFrequencies[word] += 1;
-//    } else {
-//      // if no key exists yet, assign it a value 1
-//      wordFrequencies[word] = 1;
-//    }
-//  }
-
-//  return wordFrequencies;
-// }
-
-// console.log(wordCount("fly away fly away visit the moon"));
+//referenced problem from class
 
 /**
  * findById()
