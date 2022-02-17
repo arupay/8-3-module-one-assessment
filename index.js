@@ -3,6 +3,7 @@
 
   Keep in mind that your functions must still have and use a parameter for accepting all movies.
 */
+const movies = require("./movies");
 const exampleMovies = require("./movies");
 // Do not change the line above.
 
@@ -28,7 +29,13 @@ const exampleMovies = require("./movies");
       "James and the Giant Peach",
     ];
  */
-function getAllMovieTitles() {}
+function getAllMovieTitles(movies) {
+  let arr = [];
+  for (let movie of movies) {
+    arr.push(movie.title);
+  }
+  return arr;
+}
 
 /**
  * getHighestMetascore()
@@ -41,8 +48,26 @@ function getAllMovieTitles() {}
  *  getHighestMetascore(movies);
  *  //> 96
  */
-function getHighestMetascore() {}
+// function checkEmpty(arr, this){
+//   if (!arr.length){
+//     return this
+//   }
+// }
 
+function getHighestMetascore(movies) {
+  if (!movies.length) {
+    return 0;
+  }
+  let controlMovie = movies[0].metascore;
+  for (let movie of movies) {
+    if (movie.metascore >= controlMovie) {
+      controlMovie = movie.metascore;
+    }
+  }
+  return Number(controlMovie);
+}
+
+// console.log(getHighestMetascore(exampleMovies));
 /**
  * getAverageIMDBRating()
  * -----------------------------
@@ -54,7 +79,16 @@ function getHighestMetascore() {}
  *  getAverageIMDBRating(movies);
  *  //> 7.76
  */
-function getAverageIMDBRating() {}
+function getAverageIMDBRating(movies) {
+  if (!movies.length) {
+    return 0;
+  }
+  let sum = 0;
+  for (let movie of movies) {
+    sum += Number(movie.imdbRating);
+  }
+  return sum / movies.length;
+}
 
 /**
  * countByRating()
@@ -67,7 +101,64 @@ function getAverageIMDBRating() {}
  *  countByRating(movies);
  *  //> { G: 3, PG: 7 }
  */
-function countByRating() {}
+
+function ratingArrayMaker(movies) {
+  let arr = [];
+  for (let movie of movies) {
+    arr.push(movie.rated);
+  }
+  return arr;
+}
+// console.log(countByRating(exampleMovies));
+
+function countByRating(movies) {
+  if (!movies.length) {
+    return {};
+  }
+  let ratingsObj = {};
+  let ratingsArray = ratingArrayMaker(movies);
+  for (let rating of ratingsArray) {
+    if (ratingsObj[rating]) {
+      ratingsObj[rating] += 1;
+    } else {
+      ratingsObj[rating] = 1;
+    }
+  }
+  return ratingsObj;
+}
+
+// * wordCount accepts a sentence and returns an object of word frequencies.
+// *
+// * @param {String} sentence
+// * @returns {Object} - Object mapping words to word counts
+// *
+// * Ex:
+// *
+// * wordCount("fly away fly away visit the moon")
+// * => {fly: 2, away: 2, visit: 1, the: 1, moon: 1}
+// */
+// function wordCount(sentence) {
+//  // 1. transform sentence into an array of words
+//  let words = sentence.split(" ");
+
+//  // 2. Create word frequency object. Default value should be {}
+//  let wordFrequencies = {};
+//  // 3. Iterate through our array of words
+//  for (let word of words) {
+//    // lookup key for our current word
+//    if (wordFrequencies[word]) {
+//      // if it does exist, increment its value by 1
+//      wordFrequencies[word] += 1;
+//    } else {
+//      // if no key exists yet, assign it a value 1
+//      wordFrequencies[word] = 1;
+//    }
+//  }
+
+//  return wordFrequencies;
+// }
+
+// console.log(wordCount("fly away fly away visit the moon"));
 
 /**
  * findById()
@@ -83,7 +174,16 @@ function countByRating() {}
       // Toy Story 4
     };
  */
-function findById() {}
+function findById(movies, id) {
+  for (let movie of movies) {
+    if (movie.imdbID === id) {
+      return movie;
+    }
+  }
+  return null;
+}
+
+// console.log(findById(exampleMovies, "tt20963"));
 
 /**
  * filterByGenre()
@@ -105,7 +205,20 @@ function findById() {}
  *  filterByGenre(movies, "Horror")
  *  //> []
  */
-function filterByGenre() {}
+function filterByGenre(movies, genre) {
+  let arr = [];
+  if (!movies.length) {
+    return arr;
+  }
+  for (let movie of movies) {
+    if (movie.genre.toLowerCase().includes(genre.toLowerCase())) {
+      arr.push(movie);
+    }
+  }
+  return arr;
+}
+
+// console.log(filterByGenre(exampleMovies, "Family"));
 
 /**
  * getAllMoviesReleasedAtOrBeforeYear()
@@ -129,7 +242,23 @@ function filterByGenre() {}
       }
     ];
  */
-function getAllMoviesReleasedAtOrBeforeYear() {}
+function isolateYear(movie) {
+  let releaseYear = Number(movie.released.slice(7, 11));
+  return releaseYear;
+}
+
+// helper function to isolate year in released string and turn it into a num
+
+function getAllMoviesReleasedAtOrBeforeYear(movies, year) {
+  let arr = [];
+  for (let movie of movies) {
+    let movieYear = isolateYear(movie);
+    if (year >= movieYear) {
+      arr.push(movie);
+    }
+  }
+  return arr;
+}
 
 /**
  * getBiggestBoxOfficeMovie()
@@ -142,7 +271,25 @@ function getAllMoviesReleasedAtOrBeforeYear() {}
  *  getBiggestBoxOfficeMovie(movies);
  *  //> "Incredibles 2"
  */
-function getBiggestBoxOfficeMovie() {}
+
+function convertToNum(movie) {
+  let removeCurrencyVal = movie.boxOffice.slice(1);
+  let removeCommas = removeCurrencyVal.split(",").join(""); //split to array at comma separator, join back to string without
+  return Number(removeCommas);
+}
+
+function getBiggestBoxOfficeMovie(movies) {
+  if (!movies.length) {
+    return null;
+  }
+  let controlMovie = movies[0];
+  for (let movie of movies) {
+    if (convertToNum(movie) >= convertToNum(controlMovie)) {
+      controlMovie = movie;
+    }
+  }
+  return controlMovie.title;
+}
 
 // Do not change anything below this line.
 module.exports = {
